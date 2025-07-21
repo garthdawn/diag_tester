@@ -1,0 +1,25 @@
+{
+  "device_model": "mds_9509",
+  "test_cases": [
+    {
+      "name": "show_version",
+      "command": "show version",
+      "log_file": "mds_9509_show_version.log",
+      "expected_output": "Cisco IOS Software"
+    },
+    {
+      "name": "test_memory",
+      "command": "test memory",
+      "log_file": "mds_9509_test_memory.log",
+      "expected_output": "Memory test completed successfully"
+    }
+  ],
+  "system_cases": [
+    {
+      "name": "show_system_config",
+      "command": "show system",
+      "log_file": "mds_9509_show_system.log",
+      "expected_output": ""
+    }
+  ]
+}
