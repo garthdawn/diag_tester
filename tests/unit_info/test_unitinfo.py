@@ -80,11 +80,14 @@ class Test_unitinfo:
     def test_display_slot_info(self, device, case):
         self._parse_card_data(case)
 
-        print(f"{'SLOT':2s}\t{'CARD NAME':15s}\t{'PRODUCT-ID':10s}\t{'SERIAL-NO':15s}\t{'HW REV':5s}\t{'IPC':5s}\t{'STATUS':10s}")
-        print(f"{'-'*2}\t{'-'*15}\t{'-'*10}\t{'-'*15}\t{'-'*5}\t{'-'*5}\t{'-'*10}")
-
+        result = (
+            f"{'SLOT':2s}\t{'CARD NAME':15s}\t{'PRODUCT-ID':10s}\t"
+            f"{'SERIAL-NO':15s}\t{'HW REV':5s}\t{'IPC':5s}\t{'STATUS':10s}\n"
+            f"{'-'*2}\t{'-'*15}\t{'-'*10}\t{'-'*15}\t{'-'*5}\t{'-'*5}\t{'-'*10}\n"
+        )
+        
         for slot, card_info in self.card_data.items():
-            print(
+            line = (
                 f"{slot:2d}\t"                 
                 f"{card_info[0]:15s}\t"         
                 f"{card_info[1]:10s}\t"       
@@ -93,5 +96,15 @@ class Test_unitinfo:
                 f"{card_info[4]:5s}\t"         
                 f"{card_info[5]:10s}"
             )
+            result += line
+        print(result)
 
+        with allure.step(f"Step1: Display slot info of target Unit"):
+            
+            allure.attach(
+                result,
+                name="Slot Info Table",
+                attachment_type=allure.attachment_type.TEXT
+            )
+        
         assert self.card_data, "There is no Card Info!!!"

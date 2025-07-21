@@ -44,10 +44,5 @@ pip install -e .
 
 export PYTHONPATH=$PYTHONPATH:${ROOT}
 
-echo -e "\n\033[32m环境修复完成！执行以下命令测试：\033[0m"
-echo "source .venv/bin/activate"
-echo "python -c \"from collections import Mapping; print('Collections修复成功！')\""
-echo "python -m pytest tests/ --alluredir=reports/allure-reports"
-
 echo "Test Setup Complete"
 deactivate
