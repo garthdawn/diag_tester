@@ -21,7 +21,9 @@ pipeline {
             steps {
                 sh '''
                     source .venv/bin/activate
-                    pytest tests/ -sv --alluredir=reports/allure-report
+                    pytest tests/ -sv \
+                        --alluredir=reports/allure-report \
+                        --junitxml=repots/pytest-result.xml
                 '''
             }
         }
