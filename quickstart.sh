@@ -36,8 +36,17 @@ mkdir -p results reports/allure-reports/ reports/pytest-reports
 # Install requirements
 PIP_CACHED=${ROOT}/.pip_download_cache
 echo "Installing requirements"
-python -m pip install --upgrade "pip==22.0.4"
-pip install --no-cache-dir -r requirements.txt
+
+
+if ! python -m pip install --upgrade "pip==22.0.4" -i https://pypi.org/simple; then
+    echo "Official Source not OK, trying mirror which is default"
+    python -m pip install --upgrade "pip==22.0.4"
+fi
+
+if ! pip install --no-cache-dir -r requirements.txt -i https://pypi.org/simple; then
+    echo "Official Source not OK, trying mirror which is default"
+    pip install --no-cache-dir -r requirements.txt
+fi
 
 pip install -e .
 
