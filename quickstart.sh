@@ -39,7 +39,6 @@ echo "Installing requirements"
 python -m pip install --upgrade "pip==22.0.4"
 pip install --no-cache-dir -r requirements.txt
 
-echo "import fix_collections" >> .venv/lib/python3.10/site-packages/sitecustomize.py
 pip install -e .
 
 export PYTHONPATH=$PYTHONPATH:${ROOT}

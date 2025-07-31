@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Pull from git repo diag-tester.') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('quickstart, install dependencies') {
+            steps {
+                sh '''
+                    ./quickstart.sh
+                    source .venv/bin/activate 
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh '''
+                    source .venv/bin/activate
+                    pytest tests/ -sv --alluredir=reports/allure-report
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            junit 'reports/*.xml'
+        }
+    }
+}
