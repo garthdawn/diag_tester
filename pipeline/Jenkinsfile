@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    tools {
+        allure 'Allure'
+    }
     stages {
         stage('Pull from git repo diag-tester.') {
             steps {
@@ -11,8 +14,8 @@ pipeline {
         stage('quickstart, install dependencies') {
             steps {
                 sh '''
+                    chmod +x quickstart.sh
                     ./quickstart.sh
-                    source .venv/bin/activate 
                 '''
             }
         }
@@ -22,7 +25,7 @@ pipeline {
                 sh '''
                     source .venv/bin/activate
                     pytest tests/ -sv \
-                        --alluredir=reports/allure-report \
+                        --alluredir=reports/allure-reports \
                         --junitxml=reports/pytest-result.xml
                 '''
             }
@@ -32,6 +35,12 @@ pipeline {
     post {
         always {
             junit 'reports/*.xml'
+            allure (
+                includeProperties: false, 
+                jdk: '', 
+                reportBuildPolicy: 'ALWAYS', 
+                results: [[path: 'reports/allure-reports']]
+            )
         }
     }
 }
