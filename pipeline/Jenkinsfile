@@ -1,23 +1,10 @@
-properties([
-    pipelineTriggers([
-        [
-            $class: 'GitHubPRPushTrigger',
-            adminlist: '',
-            allowMembersOfWhitelistedOrgsAsAdmin: true,
-            autoCloseFailedPullRequests: false,
-            cron: '',
-            triggerPhrase: '',
-            onlyTriggerPhrase: false,
-            useGitHubHooks: true,
-            permitAll: true,
-            whiteList: ''
-        ]
-    ])
-])
-
 pipeline {
     agent any
-    
+
+    triggers {
+        githubPush()
+    }
+
     tools {
         allure 'Allure'
     }
