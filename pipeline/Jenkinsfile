@@ -19,6 +19,14 @@ pipeline {
             steps {
                 checkout scm
             }
+            post {
+                success { 
+                    setGitHubPullRequestStatus status: 'SUCCESS', context: 'Pull Code' 
+                }
+                failure { 
+                    setGitHubPullRequestStatus status: 'FAILURE', context: 'Pull Code' 
+                }
+            }
         }
 
         stage('quickstart, install dependencies') {
@@ -29,11 +37,11 @@ pipeline {
                 '''
             }
             post {
-                success {
-                    githubChecks status: 'COMPLETED', conclusion: 'SUCCESS', name: 'Install Dependencies'
+                success { 
+                    setGitHubPullRequestStatus status: 'SUCCESS', context: 'Install Dependencies' 
                 }
-                failure {
-                    githubChecks status: 'COMPLETED', conclusion: 'FAILURE', name: 'Install Dependencies'
+                failure { 
+                    setGitHubPullRequestStatus status: 'FAILURE', context: 'Install Dependencies' 
                 }
             }
         }
@@ -48,11 +56,11 @@ pipeline {
                 '''
             }
             post {
-                success {
-                    githubChecks status: 'COMPLETED', conclusion: 'SUCCESS', name: 'Run Tests'
+                success { 
+                    setGitHubPullRequestStatus status: 'SUCCESS', context: 'Run Tests' 
                 }
-                failure {
-                    githubChecks status: 'COMPLETED', conclusion: 'FAILURE', name: 'Run Tests'
+                failure { 
+                    setGitHubPullRequestStatus status: 'FAILURE', context: 'Run Tests' 
                 }
             }
         }
@@ -67,19 +75,6 @@ pipeline {
                 reportBuildPolicy: 'ALWAYS', 
                 results: [[path: 'reports/allure-reports']]
             )
-            script {
-                def finalResult = currentBuild.currentResult == 'SUCCESS' ? 'SUCCESS' : 'FAILURE'
-                githubChecks(
-                    status: 'COMPLETED',
-                    conclusion: finalResult,
-                    name: 'Jenkins Build', 
-                    detailsURL: env.BUILD_URL,
-                    output: [
-                        title: "Build ${finalResult}",
-                        summary: "Jenkins Construct ${finalResult.toLowerCase()}, Details: ${env.BUILD_URL}"
-                    ]
-                )
-            }
         }
     }
 }
