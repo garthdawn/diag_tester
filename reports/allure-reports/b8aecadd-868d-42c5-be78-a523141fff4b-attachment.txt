@@ -1,4 +1,0 @@
-[Router]# show version
-Cisco IOS Software, MDS Software (IOS-XE), Version xx.xx.xx
-
-[Router]#
