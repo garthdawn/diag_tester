@@ -24,17 +24,19 @@ pipeline {
     agent any
     
     triggers {
-        githubPullRequest(
-            triggerPhrase: '.*test this please.*',
+        githubPullRequests(
+            adminList: '',
+            useGitHubHooks: true,
+            triggerPhrase: '.*test this please.*', 
             onlyTriggerPhrase: false,
-            useGitHubHooks: true
+            autoCloseFailedPullRequests: false
         )
     }
 
     tools {
         allure 'Allure'
     }
-    
+
     stages {
         stage('Pull from git repo diag-tester.') {
             steps {
