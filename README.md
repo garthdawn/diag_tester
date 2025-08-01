@@ -13,17 +13,8 @@
    cd reports
    allure serve allure-reports (then a webpage will prompt up)
    
-## Local Jenkins Server is ready.
-1. install jenkins tool sets locally, and launch properly 
-   (I did in Macolder version, while it's easier in Ubuntu)
-2. in Jenkins - management page, install plugins:
-         Git Plugin
-         Pipeline Plugin
-         Allure Plugin
-         GitHub Plugin
-3. set Allure commandline : install automatically.
-   SCM : input https://github.com/garthdawn/diag_tester.git
-   script path: pipeline/Jenkinsfile
-
-4. then can access jenkins page: http://localhost:8080/job/diag-tester-mr/
-   and start test job, job will end with proper Allure report.
+## Webhook is effective. 
+1. Once a Merge has been made to https://github.com/garthdawn/diag_tester. A jenkins test job will be auto triggered. 
+2. The jenkins job can be seen in : https://762b73abb6b5.ngrok-free.app/job/diag-tester-mr/ 
+   (this is a global hostname of my local Jenkins server, realized by ngrok,
+      it will not be accessible if my laptop is offline)
