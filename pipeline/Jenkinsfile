@@ -5,6 +5,11 @@ pipeline {
         githubPush()
     }
 
+    options {
+        checkoutToSubdirectory('diag_tester')
+        buildDiscarder(logRotator(daysToKeepStr: '7'))
+    }
+
     tools {
         allure 'Allure'
     }
@@ -23,6 +28,14 @@ pipeline {
                     ./quickstart.sh
                 '''
             }
+            post {
+                success {
+                    githubChecks status: 'COMPLETED', conclusion: 'SUCCESS', name: 'Install Dependencies'
+                }
+                failure {
+                    githubChecks status: 'COMPLETED', conclusion: 'FAILURE', name: 'Install Dependencies'
+                }
+            }
         }
 
         stage('Run Tests') {
@@ -33,6 +46,14 @@ pipeline {
                         --alluredir=reports/allure-reports \
                         --junitxml=reports/pytest-result.xml
                 '''
+            }
+            post {
+                success {
+                    githubChecks status: 'COMPLETED', conclusion: 'SUCCESS', name: 'Run Tests'
+                }
+                failure {
+                    githubChecks status: 'COMPLETED', conclusion: 'FAILURE', name: 'Run Tests'
+                }
             }
         }
     }
@@ -46,6 +67,19 @@ pipeline {
                 reportBuildPolicy: 'ALWAYS', 
                 results: [[path: 'reports/allure-reports']]
             )
+            script {
+                def finalResult = currentBuild.currentResult == 'SUCCESS' ? 'SUCCESS' : 'FAILURE'
+                githubChecks(
+                    status: 'COMPLETED',
+                    conclusion: finalResult,
+                    name: 'Jenkins Build', 
+                    detailsURL: env.BUILD_URL,
+                    output: [
+                        title: "Build ${finalResult}",
+                        summary: "Jenkins Construct ${finalResult.toLowerCase()}, Details: ${env.BUILD_URL}"
+                    ]
+                )
+            }
         }
     }
 }
