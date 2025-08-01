@@ -1,9 +1,40 @@
+properties([
+    pipelineTriggers([
+        [
+            $class: 'GitHubPRPushTrigger',
+            adminlist: '',
+            allowMembersOfWhitelistedOrgsAsAdmin: true,
+            autoCloseFailedPullRequests: false,
+            cron: '',
+            triggerPhrase: '',
+            onlyTriggerPhrase: false,
+            useGitHubHooks: true,
+            permitAll: true,
+            whiteList: ''
+        ]
+    ])
+])
+
+
+
+
+
+
 pipeline {
     agent any
+    
+    triggers {
+        githubPullRequest(
+            triggerPhrase: '.*test this please.*',
+            onlyTriggerPhrase: false,
+            useGitHubHooks: true
+        )
+    }
 
     tools {
         allure 'Allure'
     }
+    
     stages {
         stage('Pull from git repo diag-tester.') {
             steps {
