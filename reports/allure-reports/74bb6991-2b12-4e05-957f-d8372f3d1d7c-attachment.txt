@@ -1,4 +1,0 @@
-[Router]# test memory
-Starting memory test...
-Memory test completed successfully
-[Router]# 
