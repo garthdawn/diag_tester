@@ -15,24 +15,9 @@ properties([
     ])
 ])
 
-
-
-
-
-
 pipeline {
     agent any
     
-    triggers {
-        githubPullRequests(
-            adminList: '',
-            useGitHubHooks: true,
-            triggerPhrase: '.*test this please.*', 
-            onlyTriggerPhrase: false,
-            autoCloseFailedPullRequests: false
-        )
-    }
-
     tools {
         allure 'Allure'
     }
