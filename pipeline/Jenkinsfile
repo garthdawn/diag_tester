@@ -21,10 +21,10 @@ pipeline {
             }
             post {
                 success { 
-                    setGitHubPullRequestStatus state: 'SUCCESS', context: 'Pull Code' 
+                    githubNotify status: 'SUCCESS', context: 'Pull Code' 
                 }
                 failure { 
-                    setGitHubPullRequestStatus state: 'FAILURE', context: 'Pull Code' 
+                    githubNotify status: 'FAILURE', context: 'Pull Code' 
                 }
             }
         }
@@ -38,10 +38,10 @@ pipeline {
             }
             post {
                 success { 
-                    setGitHubPullRequestStatus state: 'SUCCESS', context: 'Install Dependencies' 
+                    githubNotify status: 'SUCCESS', context: 'Install Dependencies' 
                 }
                 failure { 
-                    setGitHubPullRequestStatus state: 'FAILURE', context: 'Install Dependencies' 
+                    githubNotify status: 'FAILURE', context: 'Install Dependencies' 
                 }
             }
         }
@@ -57,10 +57,10 @@ pipeline {
             }
             post {
                 success { 
-                    setGitHubPullRequestStatus state: 'SUCCESS', context: 'Run Tests' 
+                    githubNotify status: 'SUCCESS', context: 'Run Tests' 
                 }
                 failure { 
-                    setGitHubPullRequestStatus state: 'FAILURE', context: 'Run Tests' 
+                    githubNotify status: 'FAILURE', context: 'Run Tests' 
                 }
             }
         }
