@@ -19,14 +19,6 @@ pipeline {
             steps {
                 checkout scm
             }
-            post {
-                success { 
-                    githubNotify status: 'SUCCESS', context: 'Pull Code' 
-                }
-                failure { 
-                    githubNotify status: 'FAILURE', context: 'Pull Code' 
-                }
-            }
         }
 
         stage('quickstart, install dependencies') {
@@ -35,14 +27,6 @@ pipeline {
                     chmod +x quickstart.sh
                     ./quickstart.sh
                 '''
-            }
-            post {
-                success { 
-                    githubNotify status: 'SUCCESS', context: 'Install Dependencies' 
-                }
-                failure { 
-                    githubNotify status: 'FAILURE', context: 'Install Dependencies' 
-                }
             }
         }
 
@@ -54,14 +38,6 @@ pipeline {
                         --alluredir=reports/allure-reports \
                         --junitxml=reports/pytest-result.xml
                 '''
-            }
-            post {
-                success { 
-                    githubNotify status: 'SUCCESS', context: 'Run Tests' 
-                }
-                failure { 
-                    githubNotify status: 'FAILURE', context: 'Run Tests' 
-                }
             }
         }
     }
